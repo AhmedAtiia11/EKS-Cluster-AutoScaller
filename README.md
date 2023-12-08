@@ -1,4 +1,4 @@
-    # EKS Cluster Autoscaler
+# EKS Cluster Autoscaler
 
 ## Overview
 The EKS Cluster Autoscaler is a solution designed to efficiently manage master and worker nodes within the Amazon Elastic Kubernetes Service (EKS). This implementation leverages the EKS service for master node management and utilizes the Cluster Autoscaler to dynamically scale worker nodes based on system load.
