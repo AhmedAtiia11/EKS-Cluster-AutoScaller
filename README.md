@@ -52,4 +52,3 @@ Run the nginx.yaml file to deploy the sample Nginx application. Access the appli
 ### 10. Test Autoscaling
 Experiment with Cluster Autoscaler functionality by adjusting the number of replicas in the Nginx Deployment and observing the autoscaling behavior.
 
-Feel free to reach out for any additional assistance or troubleshooting.
