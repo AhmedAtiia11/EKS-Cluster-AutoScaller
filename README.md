@@ -1,27 +1,55 @@
-# EKS-Cluster-AutoScaller
+    # EKS Cluster Autoscaler
 
-## Over View
-Using EKS service to take care of my master nodes and using cluster auto scaler to scale up and down the worker nodes based on the load i made on them
+## Overview
+The EKS Cluster Autoscaler is a solution designed to efficiently manage master and worker nodes within the Amazon Elastic Kubernetes Service (EKS). This implementation leverages the EKS service for master node management and utilizes the Cluster Autoscaler to dynamically scale worker nodes based on system load.
 
-## Steps
-    1- Using cloud formation stack put vpc template.
-    2- Create a Role with "AmazonEKSCluster" policy.
-    3- Create an eks cluster and specify 
-        - EKS-Role we created earlier .
-        - VPC we created earlier.
-        - Cluster endpoint access to be public and private. 
-        - Select pods we want to add by default.
-        Then Create the cluster.
-    4- Create node group and specify 
-        - The specification of our nodes. 
-        - VPC we created earlier.
-        - Role with (EC2containerRegistery,EKS_CNI,EKSWorkerNode,IAM-Policy_for_AutoScaler) Policy.
-    5- Using cloud shell put the command : aws eks update-kubeconfig --name <cluster_name>  .
-    6- Run cluster-AutoScaler.yaml file.
-    7- Run command : kubectl edit deployment -n kube-system cluster-autoscaler 
-        to  change cluster name and kubernetes verion with yours.
-    8- To make sure every thing is file run commands : 
-        kubectl get pod -n kube-system.
-        kubectl logs -n kube-system POD_NAME.
-    9- Run nginx.yaml file tou run your app < open Loudbalancer_DNS in your browser to see your app >.
-    10- Change the number of replicas in Nginx Deployment to see Cluster-AutoScaler Working.
+## Installation Steps
+
+### 1. Deploy VPC Template Using CloudFormation Stack
+Ensure a secure and well-configured Virtual Private Cloud (VPC) environment by deploying the provided CloudFormation stack with the VPC template.
+
+### 2. Create a Role with "AmazonEKSCluster" Policy
+Establish the necessary AWS Identity and Access Management (IAM) role with the "AmazonEKSCluster" policy to grant appropriate permissions for EKS cluster management.
+
+### 3. Create EKS Cluster
+- Execute the creation of an EKS cluster, specifying:
+  - The previously created EKS role.
+  - The VPC established through the CloudFormation stack.
+  - Public and private cluster endpoint access settings.
+  - Default selection of pods to be added to the cluster.
+
+### 4. Create Node Group
+Configure the node group with:
+  - Node specifications.
+  - The VPC created earlier.
+  - A role with policies (EC2ContainerRegistry, EKS_CNI, EKSWorkerNode, IAM-Policy_for_AutoScaler).
+
+### 5. Configure Kubeconfig Using Cloud Shell
+Execute the following Cloud Shell command to configure kubectl for interacting with the newly created EKS cluster:
+```bash
+aws eks update-kubeconfig --name <cluster_name>
+```
+
+### 6. Deploy Cluster Autoscaler
+Run the cluster-AutoScaler.yaml file to deploy the Cluster Autoscaler to your Kubernetes cluster.
+
+### 7. Edit Cluster Autoscaler Configuration
+Use the command below to edit the Cluster Autoscaler deployment and customize parameters such as cluster name and Kubernetes version:
+```bash
+kubectl edit deployment -n kube-system cluster-autoscaler
+```
+
+### 8. Verify Deployment
+Ensure a successful deployment by checking the status of Kubernetes pods and inspecting logs:
+```bash
+kubectl get pod -n kube-system
+kubectl logs -n kube-system POD_NAME
+```
+
+### 9. Deploy Sample Application (Nginx)
+Run the nginx.yaml file to deploy the sample Nginx application. Access the application through the LoadBalancer DNS in your web browser.
+
+### 10. Test Autoscaling
+Experiment with Cluster Autoscaler functionality by adjusting the number of replicas in the Nginx Deployment and observing the autoscaling behavior.
+
+Feel free to reach out for any additional assistance or troubleshooting.
